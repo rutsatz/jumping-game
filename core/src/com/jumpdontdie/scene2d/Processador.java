@@ -1,4 +1,4 @@
-package com.jumpdontdie;
+package com.jumpdontdie.scene2d;
 
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;

@@ -43,6 +43,8 @@ public class CrateEntity extends Actor {
         box.dispose();
 
         setSize(0.7f*PIXELS_IN_METER, 0.7f*PIXELS_IN_METER);
+
+        fixture.setUserData("crate");
     }
 
     @Override

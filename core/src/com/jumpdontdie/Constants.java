@@ -13,6 +13,17 @@ public class Constants {
      * preciso fazer a equivalência entre os dois. Dessa forma, 360/4 = 90. Logo,
      * 1 metro equivale a 90 pixels.
      */
-    public static final float PIXELS_IN_METER = 90f;
+    public static final float PIXELS_IN_METER = 45f; // 90
+
+    /**
+     * Força aplicada nos saltos.
+     */
+    public static final float IMPULSE_JUMP = 21;
+
+    /**
+     * Velocidade do jogador.
+     * Usado também para a velocidade da camera, para acompanhar o player.
+     */
+    public static final float PLAYER_SPEED = 4;
 
 }

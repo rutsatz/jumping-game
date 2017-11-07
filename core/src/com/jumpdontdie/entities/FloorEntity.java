@@ -22,9 +22,9 @@ public class FloorEntity extends Actor {
 
     private World world;
 
-    private Body body;
+    private Body body, leftBody;
 
-    private Fixture fixture;
+    private Fixture fixture, leftFixture;
 
     public FloorEntity(World world, Texture texture, Vector2 position, float width) {
         this.world = world;
@@ -33,27 +33,45 @@ public class FloorEntity extends Actor {
         BodyDef def = new BodyDef();
 
         // Defino a altura como -1
-//        def.position.set(position.x + width / 2, position.y-0.5f);
+//        def.position.set(position.x - 0.5f , position.y-0.5f);
         // Ajustar o x, pq axo q o tamanho tá com problema.
-        def.position.set(0, position.y-0.5f);
+        def.position.set(position.x, position.y - 0.5f);
 //        System.out.println(position.x);
         def.type = BodyDef.BodyType.StaticBody;
         body = world.createBody(def);
 
         PolygonShape box = new PolygonShape();
-        box.setAsBox(width/2, 0.5f);
-//        box.setAsBox(0.5f, 0.5f);
-//        System.out.println();
+        box.setAsBox(width / 2, 0.5f);
+//        box.setAsBox(width, 0.5f);
+//        System.out.println(width / 2);
         fixture = body.createFixture(box, 1);
+        fixture.setUserData("floor");
         box.dispose();
+
+
+        // Utiliza uma borda transparente na esquerda para quando o usuário
+        // colidir, ele tbm morrer.
+        BodyDef leftDef = new BodyDef();
+        leftDef.position.set(position.x - 0.55f, position.y - 0.55f);
+        leftDef.type = BodyDef.BodyType.StaticBody; // Default é static
+        leftBody = world.createBody(leftDef);
+
+        PolygonShape leftBox = new PolygonShape();
+        leftBox.setAsBox( 0.02f, 0.45f); // cria a bordinha transparente
+        leftFixture = leftBody.createFixture(leftBox, 1);
+        leftFixture.setUserData("crate");
+        leftBox.dispose();
 
         setSize(width * PIXELS_IN_METER, PIXELS_IN_METER);
 //        setSize(1 * PIXELS_IN_METER, PIXELS_IN_METER);
 //        System.out.println(getHeight());
 
-        setPosition((position.x-width/2)*PIXELS_IN_METER,(position.y-1)*PIXELS_IN_METER);
-//        setPosition(1*PIXELS_IN_METER,50);
+        setPosition(position.x * PIXELS_IN_METER, (position.y - 1) * PIXELS_IN_METER);
+//        setPosition(1*PIXELS_IN_METER,(position.y - 1) * PIXELS_IN_METER);
 //        System.out.println(getY());
+
+
+
     }
 
     @Override

@@ -1,10 +1,12 @@
-package com.jumpdontdie;
+package com.jumpdontdie.scene2d;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.jumpdontdie.BaseScreen;
+import com.jumpdontdie.MainGame;
 import com.jumpdontdie.scene2d.ActorCrate;
 import com.jumpdontdie.scene2d.ActorPlayer;
 

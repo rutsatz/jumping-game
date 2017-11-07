@@ -1,5 +1,6 @@
 package com.jumpdontdie.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
@@ -9,9 +10,8 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.jumpdontdie.Constants;
 
-import static com.jumpdontdie.Constants.PIXELS_IN_METER;
+import static com.jumpdontdie.Constants.*;
 
 /**
  * Created by raffa on 02/11/17.
@@ -27,7 +27,9 @@ public class PlayerEntity extends Actor {
 
     private Fixture fixture;
 
-    private boolean alive = true, jumping = false;
+    private boolean alive = true;
+    private boolean jumping = false;
+    private boolean mustJump = false;
 
     public PlayerEntity(World world, Texture texture, Vector2 position) {
         this.world = world;
@@ -47,6 +49,9 @@ public class PlayerEntity extends Actor {
         box.dispose();
 
         setSize(PIXELS_IN_METER, PIXELS_IN_METER);
+
+        fixture.setUserData("player");
+
     }
 
     @Override
@@ -60,11 +65,71 @@ public class PlayerEntity extends Actor {
         batch.draw(texture, getX(), getY(), getWidth(), getHeight());
     }
 
+    @Override
+    public void act(float delta) {
+
+
+
+        // pular se o jogador tocou na tela.
+        if (Gdx.input.justTouched() || mustJump) {
+            mustJump = false;
+            jump();
+        }
+
+        // avançar se continua vivo.
+        if (alive) {
+            float speedY = body.getLinearVelocity().y;
+            body.setLinearVelocity(PLAYER_SPEED, speedY);
+        }
+
+        // Aplica uma força para baixo, evitando o player saltar muito alto.
+        if (jumping) {
+            body.applyForceToCenter(0, -IMPULSE_JUMP * 0.5f, true);
+        }
+    }
+
+    public void jump() {
+
+        if (!isJumping() && alive) {
+            setJumping(true);
+            Vector2 position = body.getPosition();
+            body.applyLinearImpulse(0, IMPULSE_JUMP, position.x, position.y, true);
+        }
+    }
+
+
     /**
      * Responsável pelo dispose.
      */
     public void detach() {
         body.destroyFixture(fixture);
         world.destroyBody(body);
+    }
+
+
+    public boolean isJumping() {
+        return jumping;
+    }
+
+    public void setJumping(boolean jumping) {
+        this.jumping = jumping;
+    }
+
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+
+    public boolean isMustJump() {
+        return mustJump;
+    }
+
+    public void setMustJump(boolean mustJump) {
+        this.mustJump = mustJump;
     }
 }
