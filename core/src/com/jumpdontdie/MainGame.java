@@ -1,6 +1,7 @@
 package com.jumpdontdie;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -23,9 +24,9 @@ public class MainGame extends Game {
         manager.load("Crate.png", Texture.class);
         manager.load("Run__000.png", Texture.class);
 
-//        manager.load("die.ogg", Sound.class);
-//        manager.load("jump.ogg", Sound.class);
-//        manager.load("song.ogg", Music.class);
+        manager.load("die.wav", Sound.class);
+        manager.load("jump.wav", Sound.class);
+        manager.load("song.wav", Music.class);
 
         // carrega de modo sincrono.
         manager.finishLoading();

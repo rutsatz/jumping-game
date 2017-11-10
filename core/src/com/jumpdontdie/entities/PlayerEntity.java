@@ -71,7 +71,7 @@ public class PlayerEntity extends Actor {
 
 
         // pular se o jogador tocou na tela.
-        if (Gdx.input.justTouched() || mustJump) {
+        if (mustJump) {
             mustJump = false;
             jump();
         }
