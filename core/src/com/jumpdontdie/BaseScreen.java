@@ -10,7 +10,7 @@ public abstract class BaseScreen implements Screen {
 
     protected MainGame game;
 
-    public BaseScreen(MainGame game){
+    public BaseScreen(MainGame game) {
         this.game = game;
     }
 

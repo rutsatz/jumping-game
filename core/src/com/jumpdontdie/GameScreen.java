@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.jumpdontdie.entities.CrateEntity;
 import com.jumpdontdie.entities.FloorEntity;
@@ -41,7 +42,7 @@ public class GameScreen extends BaseScreen {
 
     private Music bgMusic;
 
-    public GameScreen(MainGame game) {
+    public GameScreen(final MainGame game) {
         super(game);
 
         jumpSound = game.getManager().get("jump.wav");
@@ -74,10 +75,31 @@ public class GameScreen extends BaseScreen {
 
                 if (areCollided(contact, "player", "crate")) {
                     if (player.isAlive()) {
-                        System.out.println("GAME OVER");
+
                         player.setAlive(false);
                         bgMusic.stop();
                         dieSound.play();
+
+                        // Actions são animações usadas para animar objetos.
+                        // Temos a sequence que executa várias funções em sequencia,
+                        // como se fossem callbacks.
+                        // Temos também a Action.run, que executa um código.
+                        // Assim, criamos duas Action.run, uma para dar um delay após
+                        // a morte do player
+                        // e outra para trocar para a tela de gameover. Após, passamos
+                        // os dois para a sequence rodar em sequencia.
+                        stage.addAction(
+                                Actions.sequence(
+                                        Actions.delay(1.5f),
+                                        Actions.run(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                game.setScreen(game.gameOverScreen);
+                                            }
+                                        })
+                                )
+                        );
+
                     }
                 }
             }
