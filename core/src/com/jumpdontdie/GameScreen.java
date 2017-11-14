@@ -157,6 +157,7 @@ public class GameScreen extends BaseScreen {
     public void hide() {
         bgMusic.stop();
 
+
         player.detach();
         player.remove();
         for (FloorEntity floor : floorList) {
